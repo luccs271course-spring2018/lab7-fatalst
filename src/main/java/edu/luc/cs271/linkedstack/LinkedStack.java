@@ -11,7 +11,7 @@ public class LinkedStack<E> implements IStack<E> {
 
   private int n = 0;
 
-  // TODO why don't we need an explicit constructor?
+  // DONE why don't we need an explicit constructor?
 
   @Override
   public E push(final E obj) {
@@ -54,14 +54,33 @@ public class LinkedStack<E> implements IStack<E> {
 
   @Override
   public List<E> asList() {
-    // DONE implement using an ArrayList preallocated with the right size
-    // DONE add any instance variable(s) required to support this
-    List<E> list = new ArrayList<E>(n);
-    while (top != null) {
-      list.add(top.data);
-      top = top.next;
-    }
+    final ArrayList<E> result = new ArrayList<>(n);
+    populateList(top, result); // DONE replace null with the right reference
+    return result;
+  }
 
-    return list;
+  private void populateList(final Node<E> curr, final List<E> result) {
+    // DONE recursively populate the list in the desired order
+    if (curr == null) {
+      return;
+    }
+    result.add(curr.data);
+    populateList(curr.next, result);
+  }
+
+  @Override
+  public List<E> asFifoList() {
+    final ArrayList<E> result = new ArrayList<>(n);
+    populateFifoList(top, result); // DONE replace null with the right reference
+    return result;
+  }
+
+  private void populateFifoList(final Node<E> curr, final List<E> result) {
+    // DONE recursively populate the list in the desired order
+    if (curr == null) {
+      return;
+    }
+    result.add(0, curr.data);
+    populateFifoList(curr.next, result);
   }
 }
